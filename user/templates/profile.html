@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{%load crispy_forms_tags%} 
+{%block content%}
+<h1>Hi dear , {{user.username}}</h1>
+
+<div class="col-10 p-3">
+  <h1 class="text-success">You have borrowed: {{books | length}} books</h1>
+  <div class="d-flex flex-wrap pt-5">
+    {% for book in books %}
+    <div class="col-sm-3">
+      <div class="card m-2 shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <img
+            src="{{book.book.image.url}}"
+            class="card-img-top"
+            alt="book_image"
+          />
+          <h5 class="card-title">
+            <a
+              class="text-decoration-none text-dark"
+              href="{% url 'detail_books' book.book.id%}"
+              >{{book.book.title}}</a
+            >
+          </h5>
+          <p class="card-text">{{book.book.description | truncatewords:10}}</p>
+          <p>Quantity: {{book.book.quantity}}</p>
+          <p>Price: {{book.book.price}}</p>
+          <p class="btn btn-dark text-light">Category: {{book.book.brand}}</p>
+          <p class="btn btn-success">Borrow : {{book.order_date}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{%endblock%}

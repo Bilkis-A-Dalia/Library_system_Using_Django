@@ -1,0 +1,44 @@
+{% extends "base.html" %} 
+{% load crispy_forms_tags %} 
+{% block content %}
+<div class="col-12">
+  <div class="card m-2 shadow p-3 mb-5 bg-white rounded">
+    <div class="card-body">
+      <img
+        src="{{book.image.url}}"
+        class="card-img-top"
+        alt="book_image"
+        style="width: 50%"
+      />
+      <h1 class="card-title">{{book.title}}</h1>
+      <p class="card-text">{{book.description }}</p>
+      <p>Quantity : {{book.quantity}}</p>
+      <p>Price : {{book.price}} Taka</p>
+      <p class="btn btn-dark text-light">Category: {{book.category}}</p>
+      <br />
+      {%if user.is_authenticated%}
+      <a href="{%url 'order' book.id %}" class="btn btn-warning">Borrow Now</a>
+      {%endif%}
+    </div>
+  </div>
+</div>
+<div class="card m-2">
+  <h2 class="m-2">Total comments : {{comments | length}}</h2>
+  {%for comment in comments%}
+  <div class="card-body border m-2">
+    <p><b>{{comment.name}}</b> {{comment.created_at}}</p>
+    <p>{{comment.body}}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="card m-2">
+  <div class="card-body">
+    <form method="post">
+      <h1>Add Comment</h1>
+      {% csrf_token %} {{comment_form|crispy}}
+      <button type="submit" class="btn btn-warning">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock%}

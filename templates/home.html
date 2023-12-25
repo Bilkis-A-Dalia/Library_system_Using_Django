@@ -1,0 +1,76 @@
+{% extends "base.html" %} 
+{%load static%}
+<div class="position-absolute top-50 start-50 translate-middle">
+  {% block content %}
+  <div class="d-flex flex-wrap align-items-center px-3 pt-4">
+    <div class="col-6 px-5">
+      <h1>Welcome to our Library</h1>
+      <p>
+        Nestled within the heart of our community, our newly opened library
+        stands as a sanctuary for minds eager to explore the boundless realms of
+        knowledge and imagination. As you step through the welcoming doors, the
+        air becomes infused with the distinctive fragrance of well-loved books
+        and the promise of undiscovered tales. Here, amidst the neatly arranged
+        shelves, each volume patiently awaits its moment to transport readers to
+        worlds both familiar and unknown. Our library is more than just a
+        collection of books; it's a haven for the inquisitive, a refuge for
+        those seeking solace in the written word. The quiet whispers of turning
+        pages and the soft shuffle of footsteps in pursuit of wisdom create a
+        symphony that reverberates through the walls. Whether you seek the
+        thrill of adventure, the solace of reflection, or the joy of learning,
+        our library invites you to partake in the timeless ritual of exploration
+        and discovery. Come, lose yourself in the pages, and let the stories
+        unfold, for within these walls, a world of possibilities awaits you.
+      </p>
+    </div>
+
+    <div class="col-6 px-5">
+      <img class="img-fluid w-75" src="{% static 'header.png'%}" alt="Logo" />
+    </div>
+  </div>
+
+  <div class="mx-5 align-content-center">
+    <h5>All Books Category</h5>
+    {%for category in categories%}
+    <div class="form-check form-check-inline">
+      <a
+        href="{% url 'category_wise_book' category.slug %}"
+        class="btn btn-dark text-decoration-none text-light"
+        >{{category.name}}</a
+      >
+    </div>
+
+    {%endfor%}
+    <div class="col-10 p-3">
+      <h4>{{data | length}} found</h4>
+      <div class="d-flex flex-wrap pt-5">
+        {% for book in data %}
+        <div class="col-sm-3">
+          <div class="card m-2 shadow p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+              <img
+                src="{{book.image.url}}"
+                class="card-img-top"
+                alt="book_image"
+              />
+              <h5 class="card-title">
+                <a
+                  class="text-decoration-none text-dark"
+                  href="{% url 'detail_books' book.id%}"
+                  >{{book.title}}</a
+                >
+              </h5>
+              <p class="card-text">{{book.description | truncatewords:10}}</p>
+              <p>Quantity: {{book.quantity}}</p>
+              <p>Price: {{book.price}}</p>
+              <p class="btn btn-dark text-light">Category: {{book.category}}</p>
+              <br />
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</div>
